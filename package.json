@@ -4,17 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index",
+    "start": "node index",
+    "seed": "node utils/seed",
+    "heroku-postbuild": "node utils/seed.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/andrewmuhn/social-network-api.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Andrew Muhn",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/andrewmuhn/social-network-api/issues"
   },
-  "homepage": "https://github.com/andrewmuhn/social-network-api#readme"
+  "homepage": "https://github.com/andrewmuhn/social-network-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
