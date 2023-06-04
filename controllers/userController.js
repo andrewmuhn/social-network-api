@@ -10,8 +10,7 @@ module.exports = {
   async getUsers(req, res) {
     try {
       const users = await User.find();
-      // TODO: update get route with virtual that counts friends and return that as the json response
-      return res.json(users);
+      return res.json({ ...users });
     } catch (err) {
       console.error(err);
       return res.status(500).json(err);
@@ -29,7 +28,7 @@ module.exports = {
   async createUser(req, res) {
     try {
       const user = await User.create(req.body);
-      res.json(user);
+      return res.json(user);
     } catch (err) {
       console.error(err);
       return res.status(500).json(err);
@@ -37,11 +36,17 @@ module.exports = {
   },
   async updateUser(req, res) {
     try {
-      const user = await User.findOneAndUpdate({ _id: req.params.userId }, {});
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        req.body,
+        { new: true, runValidators: true }
+      );
 
       if (!user) {
         return res.status(404).json({ message: 'No such student exists' });
       }
+
+      return res.json(user);
     } catch (err) {
       console.error(err);
       return res.status(500).json(err);
@@ -59,7 +64,6 @@ module.exports = {
 
       console.log(deletedUser);
       const thoughtsArr = deletedUser.thoughts;
-      console.log(thoughtsArr);
       for (let i = 0; i < thoughtsArr.length; i++) {
         await Thought.findOneAndRemove({
           _id: thoughtsArr[i],
@@ -75,6 +79,32 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  async addFriend(req, res) {},
-  async deleteFriend(req, res) {},
+  async addFriend(req, res) {
+    try {
+      const user = await User.findById(req.params.userId);
+      user.friends.push(req.params.friendId);
+      await user.save();
+      return res.json(user);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+  },
+  async deleteFriend(req, res) {
+    try {
+      const user = await User.findById(req.params.userId);
+      const friendEqual = (el) => {
+        if (el.toString() === req.params.friendId) {
+          return true;
+        }
+      };
+      const friendIndex = user.friends.findIndex(friendEqual);
+      user.friends.splice(friendIndex, 1);
+      await user.save();
+      return res.json(user);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+  },
 };
