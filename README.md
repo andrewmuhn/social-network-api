@@ -76,7 +76,7 @@ Delete Reaction
 
 [Link to repo](https://github.com/andrewmuhn/social-network-api)
 
-[Link to video walkthrough of application](https://drive.google.com/file/d/1SQMS84Ae07rKwbHMb_6qO9N61eiBgOZX/view)
+[Link to video walkthrough of application](https://drive.google.com/file/d/1X_4CWyeFTKKu7nfe-imz7Ts7_6nwZwVL/view)
 
 ## Credits
 
